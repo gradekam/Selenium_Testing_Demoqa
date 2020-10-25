@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -21,17 +22,27 @@ public class ElementsTextBoxTest {
    @Test
    public void textBoxShouldAcceptStringAndSubmit() throws Exception {
        WaitHelpers.waitForVisibilityOfElementLocatedBy(By.cssSelector("[class='main-header']"), driver);
-       fullNameInput();
-//       driver = new ChromeDriver();
-
-
+       stringInput("userName", "Jak Kowalski");
+       stringInput("userEmail", "jan_kowalski@op.pl");
+       stringInput("currentAddress", "ul. Miła 17 00-2019 Warszawa");
+       stringInput("permanentAddress", "ul. Zła 69 66-666 Sosnowiec");
+       JavascriptExecutor js = (JavascriptExecutor) driver;
+       js.executeScript("window.scrollBy(0,300)", "");
+       button("submit");
 
    }
 
-    private void fullNameInput() {
-        WebElement fullName = driver.findElement(By.id("userName"));
-        fullName.sendKeys("Jak Kowalski");
+    private void stringInput(String id, String dataInput) {
+        WebElement element = driver.findElement(By.id(id));
+        element.sendKeys(dataInput);
     }
+    private void button(String id) {
+        WebElement element = driver.findElement(By.id(id));
+        element.click();
+    }
+
+
+
 
     private void openLinkAndMaximize() {
         System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
